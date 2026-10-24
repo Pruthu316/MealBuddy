@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 
@@ -5,6 +7,8 @@ from .models import Customer, Restaurant, Item, Cart, Order
 
 import razorpay
 from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 
 # =========================================================
@@ -29,24 +33,54 @@ def open_signup(request):
 
 def signup(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        mobile = request.POST.get('mobile')
-        address = request.POST.get('address')
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+        email = request.POST.get('email', '').strip()
+        mobile = request.POST.get('mobile', '').strip()
+        address = request.POST.get('address', '').strip()
 
-        if Customer.objects.filter(username=username).exists():
-            return HttpResponse("Duplicate username!")
+        try:
+            if not all([username, password, email, mobile, address]):
+                return HttpResponse(
+                    "All fields are required.",
+                    status=400
+                )
 
-        Customer.objects.create(
-            username=username,
-            password=password,
-            email=email,
-            mobile=mobile,
-            address=address
-        )
+            # Validate against the current Customer model limits.
+            if len(username) > 20:
+                return HttpResponse("Username is too long.", status=400)
 
-        return render(request, 'delivery/signin.html')
+            if len(password) > 20:
+                return HttpResponse("Password is too long.", status=400)
+
+            if len(email) > 20:
+                return HttpResponse("Email is too long.", status=400)
+
+            if len(mobile) > 10:
+                return HttpResponse("Mobile number is too long.", status=400)
+
+            if len(address) > 50:
+                return HttpResponse("Address is too long.", status=400)
+
+            if Customer.objects.filter(username=username).exists():
+                return HttpResponse("Duplicate username!", status=400)
+
+            Customer.objects.create(
+                username=username,
+                password=password,
+                email=email,
+                mobile=mobile,
+                address=address
+            )
+
+            return render(request, 'delivery/signin.html')
+
+        except Exception:
+            logger.exception("Customer registration failed")
+            return HttpResponse(
+                "Registration failed. Please try again.",
+                status=500
+            )
 
     return render(request, 'delivery/signup.html')
 
@@ -473,7 +507,10 @@ def verify_payment(request, username):
         )
 
     # Prevent duplicate orders
-    existing_order = Order.objects.filter(razorpay_payment_id=razorpay_payment_id).first()
+    existing_order = Order.objects.filter(
+        razorpay_payment_id=razorpay_payment_id
+    ).first()
+
     if existing_order:
         return JsonResponse({
             'success': True,
@@ -499,9 +536,10 @@ def verify_payment(request, username):
             {'success': False, 'message': 'Payment verification failed!'},
             status=400
         )
-    except Exception as e:
+    except Exception:
+        logger.exception("Payment verification failed")
         return JsonResponse(
-            {'success': False, 'message': f'Verification error: {str(e)}'},
+            {'success': False, 'message': 'Payment verification failed.'},
             status=500
         )
 
@@ -516,8 +554,10 @@ def verify_payment(request, username):
         razorpay_order_id=razorpay_order_id,
         razorpay_payment_id=razorpay_payment_id
     )
+
     if cart_items:
         order.items.set(cart_items)
+
     if cart:
         cart.items.clear()
 
