@@ -10,9 +10,9 @@ class Customer(models.Model):
 
 
 class Restaurant(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
     picture = models.URLField(
-        max_length=200,
+        max_length=50000,
         default='https://www.google.com/imgres?q=restaurant%20images&imgurl=https%3A%2F%2Fassets.architecturaldigest.in%2Fphotos%2F67c55d02484735032005928d%2F4%3A3%2Fw_1440%2Ch_1080%2Cc_limit%2Fcover%2520image%2520template.jpg&imgrefurl=https%3A%2F%2Fwww.architecturaldigest.in%2Fstory%2Fa-new-restaurant-in-jaipurs-city-palace-the-sarvato-dives-into-rajasthans-culinary-traditions%2F&docid=PNSEJFrhpaNGsM&tbnid=OAmoPr6vVHx75M&vet=12ahUKEwjUksX1_u-WAxUSjeEIHTexPFsQnPAOegQIRhAA..i&w=1440&h=1080&hcb=2&ved=2ahUKEwjUksX1_u-WAxUSjeEIHTexPFsQnPAOegQIRhAA'
     )
     cuisine = models.CharField(max_length=200)
@@ -25,12 +25,12 @@ class Item(models.Model):
         on_delete=models.CASCADE,
         related_name="items"
     )
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=200)
     price = models.FloatField()
     vegeterian = models.BooleanField(default=False)
     picture = models.URLField(
-        max_length=400,
+        max_length=50000,
         default='https://www.indiafilings.com/learn/wp-content/uploads/2024/08/How-to-Start-Food-Business.jpg'
     )
 
