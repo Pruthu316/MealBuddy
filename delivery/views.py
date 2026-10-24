@@ -1,5 +1,5 @@
 import logging
-
+import traceback
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 
@@ -76,11 +76,12 @@ def signup(request):
             return render(request, 'delivery/signin.html')
 
         except Exception:
-            logger.exception("Customer registration failed")
+            print("CUSTOMER REGISTRATION ERROR:", flush=True)
+            traceback.print_exc()
             return HttpResponse(
                 "Registration failed. Please try again.",
-                status=500
-            )
+                 status=500
+    )
 
     return render(request, 'delivery/signup.html')
 
