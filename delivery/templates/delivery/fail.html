@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Failed | Meal Buddy</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background: linear-gradient(135deg, #fff5f5, #ffeaea);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+        }
+
+        .card{
+            background:white;
+            width:100%;
+            max-width:500px;
+            padding:45px;
+            text-align:center;
+            border-radius:20px;
+            box-shadow:0 15px 40px rgba(0,0,0,0.1);
+            animation:fadeIn 0.5s ease;
+        }
+
+        .icon{
+            width:90px;
+            height:90px;
+            margin:auto;
+            border-radius:50%;
+            background:#ffe5e5;
+            color:#e53935;
+            font-size:45px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-bottom:25px;
+        }
+
+        h1{
+            color:#222;
+            margin-bottom:15px;
+        }
+
+        p{
+            color:#666;
+            line-height:1.6;
+            margin-bottom:30px;
+        }
+
+        .btn-group{
+            display:flex;
+            gap:15px;
+            justify-content:center;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            text-decoration:none;
+            padding:14px 25px;
+            border-radius:10px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .retry{
+            background:#ff4d4d;
+            color:white;
+        }
+
+        .retry:hover{
+            background:#e53935;
+        }
+
+        .home{
+            background:#f1f1f1;
+            color:#333;
+        }
+
+        .home:hover{
+            background:#ddd;
+        }
+
+        @keyframes fadeIn{
+            from{
+                opacity:0;
+                transform:translateY(20px);
+            }
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        @media(max-width:600px){
+            .card{
+                padding:30px 20px;
+            }
+
+            .btn{
+                width:100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+
+        <div class="icon">
+            ✕
+        </div>
+
+        <h1>Login Failed</h1>
+
+        <p>
+            Invalid username or password.<br>
+            Please check your credentials and try again.
+        </p>
+
+        <div class="btn-group">
+
+            <!-- Change URL according to your project -->
+            <a href="{% url 'open_signin' %}" class="btn retry">
+                Try Again
+            </a>
+
+            <a href="/" class="btn home">
+                Home
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

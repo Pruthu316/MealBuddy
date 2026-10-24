@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Cart | Meal Buddy</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f8fc;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #ff4d4d;
+        }
+
+        .logo span {
+            color: #222;
+        }
+
+        .user {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .user strong {
+            color: #222;
+        }
+
+        /* Main */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 45px auto;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .page-title h1 span {
+            color: #ff4d4d;
+        }
+
+        .page-title p {
+            color: #777;
+            font-size: 15px;
+        }
+
+        /* Layout */
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Cart */
+        .cart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-header h2 {
+            font-size: 21px;
+        }
+
+        .item-count {
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* Cart Item */
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 120px;
+            height: 100px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .item-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .item-price {
+            font-size: 17px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        /* Remove Button */
+        .remove-btn {
+            display: inline-block;
+            margin-top: 10px;
+            color: #ff4d4d;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            color: #d93636;
+            text-decoration: underline;
+        }
+
+        /* Summary */
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
+            position: sticky;
+            top: 90px;
+        }
+
+        .summary-card h2 {
+            font-size: 21px;
+            margin-bottom: 22px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid #eee;
+            margin-top: 10px;
+            padding-top: 20px;
+            font-size: 21px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .free {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        /* Checkout */
+        .checkout-form {
+            margin-top: 22px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff4d4d, #ff1744);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.25s ease;
+            box-shadow: 0 7px 18px rgba(255, 77, 77, 0.25);
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 77, 77, 0.35);
+        }
+
+        /* Secure payment */
+        .secure {
+            text-align: center;
+            color: #16803c;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        /* Empty cart */
+        .empty-cart {
+            background: white;
+            padding: 70px 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .empty-cart h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-cart p {
+            color: #777;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* Tablet */
+        @media (max-width: 850px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-card {
+                position: static;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .user {
+                font-size: 12px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .page-title h1 {
+                font-size: 27px;
+            }
+
+            .cart-card {
+                padding: 18px;
+            }
+
+            .cart-item {
+                gap: 13px;
+            }
+
+            .item-image {
+                width: 90px;
+                height: 80px;
+            }
+
+            .item-name {
+                font-size: 16px;
+            }
+
+            .item-description {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Meal<span>Buddy</span>
+        </div>
+
+        <div class="user">
+            Welcome, <strong>{{ username }}</strong>
+        </div>
+
+    </nav>
+
+
+    <!-- Main -->
+    <main class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Your <span>Cart</span> 🛒
+            </h1>
+
+            <p>
+                Review your selected items before placing your order.
+            </p>
+
+        </div>
+
+
+        {% if itemList %}
+
+            <div class="cart-layout">
+
+                <!-- Cart Items -->
+                <section class="cart-card">
+
+                    <div class="cart-header">
+
+                        <h2>
+                            Order Items
+                        </h2>
+
+                        <span class="item-count">
+                            {{ itemList|length }} item{{ itemList|length|pluralize }}
+                        </span>
+
+                    </div>
+
+
+                    {% for item in itemList %}
+
+                        <div class="cart-item">
+
+                            <div class="item-image">
+
+                                <img
+                                    src="{{ item.picture }}"
+                                    alt="{{ item.name }}"
+                                >
+
+                            </div>
+
+
+                            <div class="item-details">
+
+                                <div class="item-name">
+                                    {{ item.name }}
+                                </div>
+
+                                <div class="item-description">
+                                    {{ item.description }}
+                                </div>
+
+                                <div class="item-price">
+                                    ₹{{ item.price }}
+                                </div>
+
+                                <!-- Remove Item -->
+                                <a
+                                    href="{% url 'delete_from_cart' item.id username %}"
+                                    class="remove-btn"
+                                >
+                                    🗑 Remove
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </section>
+
+
+                <!-- Order Summary -->
+                <aside class="summary-card">
+
+                    <h2>
+                        Order Summary
+                    </h2>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Items
+                        </span>
+
+                        <span>
+                            {{ itemList|length }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Delivery Fee
+                        </span>
+
+                        <span class="free">
+                            FREE
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Taxes & Charges
+                        </span>
+
+                        <span>
+                            Included
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <span>
+                            ₹{{ total_price }}
+                        </span>
+
+                    </div>
+
+
+                    <form
+                        action="{% url 'checkout' username %}"
+                        class="checkout-form"
+                    >
+
+                        <input
+                            type="submit"
+                            value="Proceed to Checkout →"
+                            class="checkout-btn"
+                        >
+
+                    </form>
+
+
+                    <div class="secure">
+                        🔒 Secure & Safe Checkout
+                    </div>
+
+                </aside>
+
+            </div>
+
+        {% else %}
+
+            <!-- Empty Cart -->
+            <div class="empty-cart">
+
+                <div class="empty-icon">
+                    🛒
+                </div>
+
+                <h2>
+                    Your Cart is Empty
+                </h2>
+
+                <p>
+                    Looks like you haven't added anything yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <footer>
+        © 2026 Meal Buddy · Your hunger mate 🍴
+    </footer>
+
+</body>
+</html>

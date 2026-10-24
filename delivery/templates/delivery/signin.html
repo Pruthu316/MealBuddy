@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign In - Meal Buddy</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f7fb;
+            padding: 20px;
+        }
+
+        .signin-container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .error-message {
+            background: #ffe8e8;
+            color: #c62828;
+            border: 1px solid #ffcaca;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+        }
+
+        input::placeholder {
+            color: #aaa;
+        }
+
+        .signin-button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #28a745;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .signin-button:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .bottom-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .bottom-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .signin-container {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="signin-container">
+
+        <div class="logo">🍽️</div>
+
+        <h1>Sign In</h1>
+
+        <p class="subtitle">
+            Welcome back to Meal Buddy!
+        </p>
+
+        {% if error %}
+            <div class="error-message" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form action="{% url 'signin' %}" method="post">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username">Username</label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    value="{{ request.POST.username|default:'' }}"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="signin-button">
+                🔐 SIGN IN
+            </button>
+
+        </form>
+
+        <div class="bottom-text">
+            Don't have an account?
+            <a href="{% url 'signup' %}">Sign Up</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

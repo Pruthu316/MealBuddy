@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+*.sqlite3
+*.db
+
+# Environment and Secrets
+.env
+.env.*
+*.env
+!.env.example
+
+# Static files collected
+staticfiles/
+
+# macOS
+.DS_Store
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Logs
+*.log

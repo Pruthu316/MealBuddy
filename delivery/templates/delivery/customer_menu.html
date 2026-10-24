@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Meal Buddy</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f8fc;
+            color: #222;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #ff4d4d;
+        }
+
+        .logo span {
+            color: #222;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .welcome {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .welcome strong {
+            color: #222;
+        }
+
+        .cart-btn {
+            text-decoration: none;
+            background: #ff4d4d;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.25s;
+        }
+
+        .cart-btn:hover {
+            background: #e53935;
+            transform: translateY(-2px);
+        }
+
+        /* Main */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 45px auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .page-header h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .page-header h1 span {
+            color: #ff4d4d;
+        }
+
+        .page-header p {
+            color: #777;
+            font-size: 15px;
+        }
+
+        /* Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        /* Restaurant Card */
+        .restaurant-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+            transition: 0.3s ease;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .restaurant-image {
+            width: 100%;
+            height: 210px;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .restaurant-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s ease;
+        }
+
+        .restaurant-card:hover .restaurant-image img {
+            transform: scale(1.06);
+        }
+
+        .restaurant-content {
+            padding: 20px;
+        }
+
+        .restaurant-name {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .cuisine {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .rating {
+            color: #ff9800;
+            font-size: 15px;
+            margin-bottom: 18px;
+        }
+
+        .view-menu-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: linear-gradient(135deg, #ff4d4d, #ff1744);
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.25s;
+        }
+
+        .view-menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 77, 77, 0.3);
+        }
+
+        /* Food Card */
+        .food-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+            transition: 0.3s ease;
+        }
+
+        .food-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .food-image {
+            width: 100%;
+            height: 210px;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .food-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s ease;
+        }
+
+        .food-card:hover .food-image img {
+            transform: scale(1.06);
+        }
+
+        .food-content {
+            padding: 20px;
+        }
+
+        .food-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.5;
+            min-height: 42px;
+            margin-bottom: 15px;
+        }
+
+        .food-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .veg {
+            display: inline-block;
+            font-size: 12px;
+            padding: 5px 8px;
+            border-radius: 5px;
+            background: #e9f9ef;
+            color: #16803c;
+            margin-top: 8px;
+        }
+
+        .non-veg {
+            background: #fff0f0;
+            color: #d32f2f;
+        }
+
+        .add-btn {
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ff4d4d, #ff1744);
+            color: white;
+            padding: 11px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: 0.25s;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 77, 77, 0.3);
+        }
+
+        .add-btn:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        /* Success popup */
+        .toast {
+            position: fixed;
+            top: 85px;
+            right: 25px;
+            background: #28a745;
+            color: white;
+            padding: 13px 20px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+            z-index: 9999;
+            animation: popupIn 0.2s ease;
+        }
+
+        .toast.error {
+            background: #dc3545;
+        }
+
+        @keyframes popupIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Empty */
+        .empty-menu {
+            text-align: center;
+            background: white;
+            padding: 60px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .empty-menu-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .empty-menu h2 {
+            margin-bottom: 8px;
+        }
+
+        .empty-menu p {
+            color: #777;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* Tablet */
+        @media (max-width: 950px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .welcome {
+                display: none;
+            }
+
+            .cart-btn {
+                padding: 9px 13px;
+                font-size: 12px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .page-header h1 {
+                font-size: 27px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .food-image,
+            .restaurant-image {
+                height: 220px;
+            }
+
+            .toast {
+                left: 15px;
+                right: 15px;
+                top: 80px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            Meal<span>Buddy</span>
+        </div>
+
+        <div class="nav-right">
+            <div class="welcome">
+                Welcome, <strong>{{ username }}</strong>
+            </div>
+
+            <a href="{% url 'show_cart' username %}" class="cart-btn">
+                🛒 Go to Cart
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- RESTAURANT LIST -->
+        {% if page_type == 'restaurants' %}
+
+            <div class="page-header">
+                <h1>Browse <span>Restaurants</span></h1>
+                <p>Choose a restaurant to view its menu.</p>
+            </div>
+
+            {% if restaurantList %}
+                <div class="menu-grid">
+
+                    {% for restaurant in restaurantList %}
+                        <div class="restaurant-card">
+
+                            <div class="restaurant-image">
+                                <img
+                                    src="{{ restaurant.picture }}"
+                                    alt="{{ restaurant.name }}"
+                                >
+                            </div>
+
+                            <div class="restaurant-content">
+                                <div class="restaurant-name">
+                                    {{ restaurant.name }}
+                                </div>
+
+                                <div class="cuisine">
+                                    🍴 {{ restaurant.cuisine }}
+                                </div>
+
+                                <div class="rating">
+                                    ⭐ {{ restaurant.rating }}
+                                </div>
+
+                                <a
+                                    href="{% url 'view_menu' restaurant.id username %}"
+                                    class="view-menu-btn"
+                                >
+                                    View Menu
+                                </a>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+
+                </div>
+            {% else %}
+                <div class="empty-menu">
+                    <div class="empty-menu-icon">🍴</div>
+                    <h2>No Restaurants Available</h2>
+                    <p>Sorry, there are no restaurants available right now.</p>
+                </div>
+            {% endif %}
+
+        <!-- FOOD MENU -->
+        {% elif page_type == 'menu' %}
+
+            <div class="page-header">
+                <h1>Today's <span>Menu</span></h1>
+                <p>Choose your favourite food and add it to your cart.</p>
+            </div>
+
+            {% if itemList %}
+                <div class="menu-grid">
+
+                    {% for item in itemList %}
+                        <div class="food-card">
+
+                            <div class="food-image">
+                                <img
+                                    src="{{ item.picture }}"
+                                    alt="{{ item.name }}"
+                                >
+                            </div>
+
+                            <div class="food-content">
+                                <div class="food-name">
+                                    {{ item.name }}
+                                </div>
+
+                                <div class="description">
+                                    {{ item.description }}
+                                </div>
+
+                                {% if item.vegeterian %}
+                                    <span class="veg">🟢 Vegetarian</span>
+                                {% else %}
+                                    <span class="veg non-veg">🔴 Non-Vegetarian</span>
+                                {% endif %}
+
+                                <div class="food-bottom">
+                                    <div class="price">
+                                        ₹{{ item.price }}
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        class="add-btn"
+                                        data-url="{% url 'add_to_cart' item.id username %}"
+                                    >
+                                        + Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+
+                </div>
+            {% else %}
+                <div class="empty-menu">
+                    <div class="empty-menu-icon">🍽️</div>
+                    <h2>Menu is Empty</h2>
+                    <p>Sorry, there are no food items available right now.</p>
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+    </main>
+
+    <footer>
+        © 2026 Meal Buddy · Your hunger mate 🍴
+    </footer>
+
+    <!-- Toast popup -->
+    <div id="toast-container" aria-live="polite"></div>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(
+                            cookie.substring(name.length + 1)
+                        );
+                        break;
+                    }
+                }
+            }
+
+            return cookieValue;
+        }
+
+        let toastTimer;
+
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toast-container');
+
+            // Remove any previous popup.
+            container.innerHTML = '';
+            clearTimeout(toastTimer);
+
+            const toast = document.createElement('div');
+            toast.className = isError ? 'toast error' : 'toast';
+            toast.textContent = message;
+
+            container.appendChild(toast);
+
+            // Hide after 0.5 seconds.
+            toastTimer = setTimeout(() => {
+                toast.remove();
+            }, 500);
+        }
+
+        document.querySelectorAll('.add-btn').forEach(button => {
+            button.addEventListener('click', async function () {
+                if (button.disabled) {
+                    return;
+                }
+
+                button.disabled = true;
+
+                try {
+                    const response = await fetch(button.dataset.url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        credentials: 'same-origin'
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(
+                            data.message || 'Unable to add item to cart.'
+                        );
+                    }
+
+                    showToast('✓ Added to cart successfully!');
+
+                } catch (error) {
+                    showToast(
+                        error.message || 'Unable to add item to cart.',
+                        true
+                    );
+                } finally {
+                    button.disabled = false;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

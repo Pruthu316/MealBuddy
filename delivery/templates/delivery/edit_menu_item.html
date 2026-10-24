@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Menu Item</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f7fb 0%,
+                    #eef2f7 100%
+                );
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px 15px;
+            color: #333;
+        }
+
+        /* =========================
+           MAIN CARD
+        ========================= */
+
+        .edit-container {
+            width: 100%;
+            max-width: 650px;
+
+            background: #ffffff;
+
+            padding: 40px;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 15px 45px rgba(0, 0, 0, 0.10);
+
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header-icon {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #e8f5e9;
+
+            border-radius: 50%;
+
+            font-size: 30px;
+        }
+
+        h1 {
+            color: #222;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="url"],
+        textarea {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #dcdfe4;
+
+            border-radius: 9px;
+
+            background: #fafbfc;
+
+            color: #333;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease;
+        }
+
+        textarea {
+
+            min-height: 120px;
+
+            resize: vertical;
+
+            line-height: 1.5;
+        }
+
+        input:focus,
+        textarea:focus {
+
+            background: #ffffff;
+
+            border-color: #28a745;
+
+            box-shadow:
+                0 0 0 3px rgba(40, 167, 69, 0.12);
+        }
+
+        /* =========================
+           PRICE
+        ========================= */
+
+        .price-wrapper {
+            position: relative;
+        }
+
+        .price-symbol {
+
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #28a745;
+
+            font-weight: bold;
+
+            pointer-events: none;
+        }
+
+        .price-input {
+            padding-left: 32px !important;
+        }
+
+        /* =========================
+           IMAGE PREVIEW
+        ========================= */
+
+        .image-preview {
+
+            margin-top: 12px;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: #f8f9fa;
+
+            border: 1px solid #eee;
+        }
+
+        .image-preview img {
+
+            display: block;
+
+            width: 140px;
+            height: 95px;
+
+            object-fit: cover;
+
+            border-radius: 8px;
+
+            border: 1px solid #ddd;
+        }
+
+        /* =========================
+           VEGETARIAN CHECKBOX
+        ========================= */
+
+        .checkbox-container {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 14px;
+
+            margin-bottom: 25px;
+
+            background: #f8fff9;
+
+            border: 1px solid #d8f0dc;
+
+            border-radius: 10px;
+        }
+
+        .checkbox-container input {
+
+            width: 18px;
+            height: 18px;
+
+            accent-color: #28a745;
+
+            cursor: pointer;
+        }
+
+        .checkbox-container label {
+
+            margin: 0;
+
+            cursor: pointer;
+
+            color: #198754;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button-group {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 10px;
+        }
+
+        button,
+        .cancel-button {
+
+            flex: 1;
+
+            padding: 13px 20px;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        /* SAVE */
+
+        .save-button {
+
+            border: none;
+
+            background: #28a745;
+
+            color: white;
+
+            box-shadow:
+                0 5px 15px rgba(40, 167, 69, 0.20);
+        }
+
+        .save-button:hover {
+
+            background: #218838;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px rgba(40, 167, 69, 0.28);
+        }
+
+        /* CANCEL */
+
+        .cancel-button {
+
+            background: #ffffff;
+
+            color: #555;
+
+            border: 1px solid #dcdfe4;
+        }
+
+        .cancel-button:hover {
+
+            background: #f5f5f5;
+
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           HELPER TEXT
+        ========================= */
+
+        .helper-text {
+
+            margin-top: 6px;
+
+            font-size: 12px;
+
+            color: #888;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .edit-container {
+
+                padding: 25px 20px;
+
+                border-radius: 14px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .button-group {
+
+                flex-direction: column;
+            }
+
+            button,
+            .cancel-button {
+
+                width: 100%;
+            }
+
+            .image-preview img {
+
+                width: 120px;
+                height: 80px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="edit-container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="header-icon">
+            ✏️
+        </div>
+
+        <h1>Edit Menu Item</h1>
+
+        <p class="subtitle">
+            Update the details of your restaurant menu item
+        </p>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <form method="post">
+
+        {% csrf_token %}
+
+
+        <!-- ITEM NAME -->
+
+        <div class="form-group">
+
+            <label for="name">
+                Item Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ item.name }}"
+                placeholder="Enter item name"
+                required
+            >
+
+        </div>
+
+
+        <!-- DESCRIPTION -->
+
+        <div class="form-group">
+
+            <label for="description">
+                Description
+            </label>
+
+            <textarea
+                id="description"
+                name="description"
+                placeholder="Describe the food item..."
+                required
+            >{{ item.description }}</textarea>
+
+        </div>
+
+
+        <!-- PRICE -->
+
+        <div class="form-group">
+
+            <label for="price">
+                Price
+            </label>
+
+            <div class="price-wrapper">
+
+                <span class="price-symbol">
+                    ₹
+                </span>
+
+                <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    class="price-input"
+                    step="0.01"
+                    min="0"
+                    value="{{ item.price }}"
+                    placeholder="0.00"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- IMAGE URL -->
+
+        <div class="form-group">
+
+            <label for="picture">
+                Image URL
+            </label>
+
+            <input
+                type="url"
+                id="picture"
+                name="picture"
+                value="{{ item.picture }}"
+                placeholder="https://example.com/food.jpg"
+            >
+
+            <p class="helper-text">
+                Enter a publicly accessible image URL.
+            </p>
+
+
+            {% if item.picture %}
+
+            <div class="image-preview">
+
+                <img
+                    src="{{ item.picture }}"
+                    alt="{{ item.name }}"
+                >
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- VEGETARIAN -->
+
+        <div class="checkbox-container">
+
+            <input
+                type="checkbox"
+                id="vegeterian"
+                name="vegeterian"
+                {% if item.vegeterian %}
+                    checked
+                {% endif %}
+            >
+
+            <label for="vegeterian">
+                🟢 Vegetarian Item
+            </label>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="button-group">
+
+            <button
+                type="submit"
+                class="save-button"
+            >
+                💾 Save Changes
+            </button>
+
+
+            <a
+                href="{% url 'open_update_menu' restaurant.id %}"
+                class="cancel-button"
+            >
+                ← Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

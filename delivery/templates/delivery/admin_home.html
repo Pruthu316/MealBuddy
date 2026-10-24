@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Page</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .admin-container {
+            width: 100%;
+            max-width: 650px;
+            background: white;
+            padding: 45px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .welcome {
+            color: #777;
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 15px 20px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .add-restaurant {
+            background: #007bff;
+        }
+
+        .add-restaurant:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .show-restaurant {
+            background: #28a745;
+        }
+
+        .show-restaurant:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .admin-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <div class="admin-icon">
+            👨‍💼
+        </div>
+
+        <h1>Admin Dashboard</h1>
+
+        <p class="welcome">
+            Welcome to Admin HOME!
+        </p>
+
+        <div class="menu">
+
+            <a
+                href="{% url 'open_add_restaurant' %}"
+                class="add-restaurant"
+            >
+                ➕ ADD NEW RESTAURANT
+            </a>
+
+            <a
+                href="{% url 'open_show_restaurant' %}"
+                class="show-restaurant"
+            >
+                🍽️ SHOW RESTAURANTS
+            </a>
+
+        </div>
+
+        <div class="footer">
+            Restaurant Management System
+        </div>
+
+    </div>
+
+</body>
+</html>

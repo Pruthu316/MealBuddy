@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .customer-container {
+            width: 100%;
+            max-width: 650px;
+            background: white;
+            padding: 45px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .customer-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .welcome {
+            color: #777;
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 15px 20px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .restaurants {
+            background: #007bff;
+        }
+
+        .restaurants:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .orders {
+            background: #28a745;
+        }
+
+        .orders:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        .profile {
+            background: #6f42c1;
+        }
+
+        .profile:hover {
+            background: #59339d;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .customer-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="customer-container">
+
+        <div class="customer-icon">
+            🍽️
+        </div>
+
+        <h1>Customer Dashboard</h1>
+
+        <p class="welcome">
+            Welcome {{ username }}! Find your favorite food and restaurants.
+        </p>
+
+        <div class="menu">
+
+            <!-- Customer food browsing -->
+            <a href="{% url 'customer_restaurants' username %}" class="restaurants">
+                🍴 Browse Restaurants
+            </a>
+
+            <!-- Customer's orders -->
+            <a href="{% url 'orders' username %}" class="orders">
+                📦 My Orders
+            </a>
+
+            <!-- Customer profile -->
+            <a href="{% url 'customer_profile' username %}" class="profile">
+                👤 My Profile
+            </a>
+
+        </div>
+
+        <div class="footer">
+            Meal Buddy · Customer Portal
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Restaurant Menu</title>
+
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+
+        /* =====================================================
+           BODY
+        ===================================================== */
+
+        body {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f7fb,
+                    #eef2f7
+                );
+
+            padding: 40px;
+
+            color: #333;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           CONTAINER
+        ===================================================== */
+
+        .container {
+
+            width: 100%;
+
+            max-width: 1250px;
+
+            margin: auto;
+        }
+
+
+        /* =====================================================
+           HEADINGS
+        ===================================================== */
+
+        h1 {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+
+            color: #222;
+
+            font-size: 32px;
+        }
+
+
+        h2 {
+
+            margin-top: 45px;
+
+            margin-bottom: 20px;
+
+            color: #222;
+
+            font-size: 24px;
+        }
+
+
+        /* =====================================================
+           MENU TABLE
+        ===================================================== */
+
+        .table-container {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+            background: white;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 8px 30px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .menu-table {
+
+            width: 100%;
+
+            min-width: 900px;
+
+            border-collapse: collapse;
+        }
+
+
+        /* =====================================================
+           TABLE HEADER
+        ===================================================== */
+
+        .menu-table thead {
+
+            background: #222;
+
+            color: white;
+        }
+
+
+        .menu-table th {
+
+            padding: 16px;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           TABLE BODY
+        ===================================================== */
+
+        .menu-table td {
+
+            padding: 15px;
+
+            text-align: center;
+
+            border-bottom:
+                1px solid #eeeeee;
+
+            vertical-align: middle;
+        }
+
+
+        .menu-table tbody tr {
+
+            transition:
+                background 0.2s ease;
+        }
+
+
+        .menu-table tbody tr:hover {
+
+            background: #f8f9fc;
+        }
+
+
+        /* =====================================================
+           FOOD IMAGE
+        ===================================================== */
+
+        .food-image {
+
+            width: 100px;
+
+            height: 70px;
+
+            object-fit: cover;
+
+            border-radius: 8px;
+
+            border: 1px solid #ddd;
+
+            background: #f5f5f5;
+        }
+
+
+        /* =====================================================
+           PRICE
+        ===================================================== */
+
+        .price {
+
+            font-weight: bold;
+
+            color: #28a745;
+
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           VEG
+        ===================================================== */
+
+        .veg {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            background: #e8f5e9;
+
+            color: #198754;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           NON VEG
+        ===================================================== */
+
+        .non-veg {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            background: #fdecec;
+
+            color: #dc3545;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
+
+        .action-buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+        }
+
+
+        /* =====================================================
+           EDIT BUTTON
+        ===================================================== */
+
+        .edit-button {
+
+            display: inline-block;
+
+            padding: 8px 14px;
+
+            border-radius: 7px;
+
+            background: #007bff;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            border: none;
+
+            transition: 0.25s;
+        }
+
+
+        .edit-button:hover {
+
+            background: #0056b3;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =====================================================
+           DELETE FORM
+        ===================================================== */
+
+        .delete-form {
+
+            margin: 0;
+        }
+
+
+        /* =====================================================
+           DELETE BUTTON
+        ===================================================== */
+
+        .delete-button {
+
+            display: inline-block;
+
+            padding: 8px 14px;
+
+            border-radius: 7px;
+
+            background: #dc3545;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            border: none;
+
+            transition: 0.25s;
+        }
+
+
+        .delete-button:hover {
+
+            background: #b02a37;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =====================================================
+           EMPTY MESSAGE
+        ===================================================== */
+
+        .empty-message {
+
+            padding: 30px !important;
+
+            color: #777;
+
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           FORM CONTAINER
+        ===================================================== */
+
+        .form-container {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 8px 30px
+                rgba(0, 0, 0, 0.08);
+
+            max-width: 700px;
+
+            margin: auto;
+        }
+
+
+        /* =====================================================
+           FORM GROUP
+        ===================================================== */
+
+        .form-group {
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           LABEL
+        ===================================================== */
+
+        label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: bold;
+
+            color: #444;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           INPUTS
+        ===================================================== */
+
+        input[type="text"],
+        input[type="number"],
+        input[type="url"],
+        textarea {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border:
+                1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            background: #fafbfc;
+
+            transition:
+                0.25s;
+        }
+
+
+        textarea {
+
+            height: 110px;
+
+            resize: vertical;
+        }
+
+
+        input:focus,
+        textarea:focus {
+
+            background: white;
+
+            border-color: #007bff;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(0, 123, 255, 0.10);
+        }
+
+
+        /* =====================================================
+           CHECKBOX
+        ===================================================== */
+
+        .checkbox-group {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 22px;
+
+            padding: 13px;
+
+            background: #f8fff9;
+
+            border:
+                1px solid #d8f0dc;
+
+            border-radius: 8px;
+        }
+
+
+        .checkbox-group label {
+
+            margin: 0;
+
+            color: #198754;
+
+            cursor: pointer;
+        }
+
+
+        input[type="checkbox"] {
+
+            width: 18px;
+
+            height: 18px;
+
+            cursor: pointer;
+
+            accent-color: #28a745;
+        }
+
+
+        /* =====================================================
+           ADD BUTTON
+        ===================================================== */
+
+        .add-button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #28a745;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+
+        .add-button:hover {
+
+            background: #1e7e34;
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 6px 15px
+                rgba(40, 167, 69, 0.20);
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            body {
+
+                padding: 15px;
+            }
+
+
+            h1 {
+
+                font-size: 26px;
+
+                margin-bottom: 25px;
+            }
+
+
+            h2 {
+
+                font-size: 21px;
+
+                margin-top: 30px;
+            }
+
+
+            .form-container {
+
+                padding: 22px;
+
+                border-radius: 12px;
+            }
+
+
+            .food-image {
+
+                width: 75px;
+
+                height: 55px;
+            }
+
+
+            .action-buttons {
+
+                flex-direction: column;
+            }
+
+
+            .edit-button,
+            .delete-button {
+
+                width: 100%;
+
+                text-align: center;
+            }
+
+
+            .delete-form {
+
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =====================================================
+         PAGE TITLE
+    ====================================================== -->
+
+    <h1>
+        🍽️ Restaurant Menu
+    </h1>
+
+
+    <!-- =====================================================
+         CURRENT MENU
+    ====================================================== -->
+
+    <div class="table-container">
+
+        <table class="menu-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Item Name
+                    </th>
+
+                    <th>
+                        Picture
+                    </th>
+
+                    <th>
+                        Description
+                    </th>
+
+                    <th>
+                        Price
+                    </th>
+
+                    <th>
+                        Is Veg
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                {% for item in itemList %}
+
+                <tr>
+
+
+                    <!-- ITEM NAME -->
+
+                    <td>
+
+                        <strong>
+                            {{ item.name }}
+                        </strong>
+
+                    </td>
+
+
+                    <!-- IMAGE -->
+
+                    <td>
+
+                        {% if item.picture %}
+
+                        <img
+                            src="{{ item.picture }}"
+                            alt="{{ item.name }}"
+                            class="food-image"
+                        >
+
+                        {% else %}
+
+                        <span>
+                            No Image
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <td>
+
+                        {{ item.description }}
+
+                    </td>
+
+
+                    <!-- PRICE -->
+
+                    <td>
+
+                        <span class="price">
+
+                            ₹{{ item.price }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- VEG / NON VEG -->
+
+                    <td>
+
+                        {% if item.vegeterian %}
+
+                            <span class="veg">
+                                🟢 Veg
+                            </span>
+
+                        {% else %}
+
+                            <span class="non-veg">
+                                🔴 Non-Veg
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- ACTIONS -->
+
+                    <td>
+
+                        <div class="action-buttons">
+
+
+                            <!-- EDIT -->
+
+                            <a
+                                href="{% url 'edit_menu_item' restaurant.id item.id %}"
+                                class="edit-button"
+                            >
+                                ✏️ Edit
+                            </a>
+
+
+                            <!-- DELETE -->
+
+                            <form
+                                action="{% url 'delete_menu_item' restaurant.id item.id %}"
+                                method="post"
+                                class="delete-form"
+                                onsubmit="return confirm('Are you sure you want to delete {{ item.name|escapejs }}?');"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="delete-button"
+                                >
+                                    🗑️ Delete
+                                </button>
+
+                            </form>
+
+
+                        </div>
+
+                    </td>
+
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty-message"
+                    >
+                        🍽️ No menu items available.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADD MENU ITEM
+    ====================================================== -->
+
+    <h2>
+        ➕ Add Menu Item
+    </h2>
+
+
+    <div class="form-container">
+
+
+        <form
+            action="{% url 'update_menu' restaurant.id %}"
+            method="post"
+        >
+
+
+            {% csrf_token %}
+
+
+            <!-- ITEM NAME -->
+
+            <div class="form-group">
+
+                <label for="name">
+                    Item Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter food item name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Enter food description"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- PRICE -->
+
+            <div class="form-group">
+
+                <label for="price">
+                    Price
+                </label>
+
+                <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    step="0.01"
+                    min="0"
+                    placeholder="Enter price"
+                    required
+                >
+
+            </div>
+
+
+            <!-- VEGETARIAN -->
+
+            <div class="checkbox-group">
+
+                <input
+                    type="checkbox"
+                    id="vegeterian"
+                    name="vegeterian"
+                >
+
+                <label for="vegeterian">
+                    🟢 Vegetarian
+                </label>
+
+            </div>
+
+
+            <!-- IMAGE -->
+
+            <div class="form-group">
+
+                <label for="picture">
+                    Image URL
+                </label>
+
+                <input
+                    type="url"
+                    id="picture"
+                    name="picture"
+                    placeholder="https://example.com/food.jpg"
+                >
+
+            </div>
+
+
+            <!-- ADD -->
+
+            <button
+                type="submit"
+                class="add-button"
+            >
+
+                ➕ Add Item
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

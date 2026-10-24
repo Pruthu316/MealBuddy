@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login Successful | Meal Buddy</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff5f5, #f5f7ff);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #ff4d4d;
+        }
+
+        .logo span {
+            color: #222;
+        }
+
+        .nav-text {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Main */
+        .main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .success-card {
+            background: white;
+            width: 100%;
+            max-width: 520px;
+            padding: 50px 40px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.10);
+            animation: appear 0.5s ease;
+        }
+
+        /* Success icon */
+        .success-icon {
+            width: 85px;
+            height: 85px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: #e9f9ef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 43px;
+            color: #16a34a;
+        }
+
+        .success-card h1 {
+            font-size: 30px;
+            color: #222;
+            margin-bottom: 12px;
+        }
+
+        .success-card h1 span {
+            color: #ff4d4d;
+        }
+
+        .success-card p {
+            color: #777;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.25s ease;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #ff4d4d, #ff1744);
+            color: white;
+            box-shadow: 0 6px 18px rgba(255, 77, 77, 0.25);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 25px rgba(255, 77, 77, 0.35);
+        }
+
+        .secondary-btn {
+            background: #f3f4f6;
+            color: #333;
+        }
+
+        .secondary-btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #999;
+            font-size: 13px;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .nav-text {
+                font-size: 12px;
+            }
+
+            .success-card {
+                padding: 40px 25px;
+            }
+
+            .success-card h1 {
+                font-size: 25px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Meal<span>Buddy</span>
+        </div>
+
+        <div class="nav-text">
+            Your hunger mate 🍴
+        </div>
+
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <div class="success-card">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h1>
+                Login <span>Successful!</span>
+            </h1>
+
+            <p>
+                Welcome back to Meal Buddy! 🎉
+                <br>
+                You have successfully logged in.
+                Your delicious journey starts here.
+            </p>
+
+            <div class="buttons">
+
+                <!-- Change this URL to your actual home/customer URL -->
+                <a href="/" class="btn primary-btn">
+                    Go to Home
+                </a>
+
+                <a href="javascript:history.back()" class="btn secondary-btn">
+                    Go Back
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        © 2026 Meal Buddy · Made with ❤️ for food lovers
+    </footer>
+
+</body>
+</html>
