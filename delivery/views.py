@@ -53,7 +53,7 @@ def signup(request):
             if len(password) > 20:
                 return HttpResponse("Password is too long.", status=400)
 
-            if len(email) > 20:
+            if len(email) > 500:
                 return HttpResponse("Email is too long.", status=400)
 
             if len(mobile) > 10:
